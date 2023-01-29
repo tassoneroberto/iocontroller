@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import ctypes
+import time
 
 import win32api
 import win32con
@@ -65,6 +66,16 @@ def ReleaseKey(hexKeyCode) -> None:
     )
     x = Input(ctypes.c_ulong(1), ii_)
     sendInput(1, ctypes.pointer(x), ctypes.sizeof(x))
+
+
+def PressAndReleaseKey(hexKeyCode, seconds=0.045) -> None:
+    HoldKey(hexKeyCode, seconds)
+
+
+def HoldKey(hexKeyCode, seconds) -> None:
+    PressKey(hexKeyCode)
+    time.sleep(seconds)
+    ReleaseKey(hexKeyCode)
 
 
 def MoveMouseAbsolute(x, y) -> None:
