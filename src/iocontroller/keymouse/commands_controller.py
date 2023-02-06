@@ -68,14 +68,20 @@ def ReleaseKey(hexKeyCode) -> None:
     sendInput(1, ctypes.pointer(x), ctypes.sizeof(x))
 
 
-def PressAndReleaseKey(hexKeyCode, seconds=0.045) -> None:
+def PressAndReleaseKey(hexKeyCode, seconds=0.045, cooldown=0) -> None:
     HoldKey(hexKeyCode, seconds)
 
+    if cooldown > 0:
+        time.sleep(cooldown)
 
-def HoldKey(hexKeyCode, seconds) -> None:
+
+def HoldKey(hexKeyCode, seconds, cooldown=0) -> None:
     PressKey(hexKeyCode)
     time.sleep(seconds)
     ReleaseKey(hexKeyCode)
+
+    if cooldown > 0:
+        time.sleep(cooldown)
 
 
 def MoveMouseAbsolute(x, y) -> None:
