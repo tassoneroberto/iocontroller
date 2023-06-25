@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import time
 import logging
 
 import win32gui
@@ -8,7 +9,7 @@ logging.getLogger(__name__)
 logging.root.setLevel(logging.INFO)
 
 
-def select_window(window_name):
+def select_window(window_name, delay = .5):
     logging.info(f"Detecting {window_name}...")
     hwnd = win32gui.FindWindow(None, r"{}".format(window_name))
     if hwnd == 0:
@@ -20,6 +21,7 @@ def select_window(window_name):
     logging.info(
         f"Application {window_name} detected successfully. Window size: [{width}x{height}]"
     )
+    time.sleep(delay) # Make sure the application is on focus before returning
     return dimensions
 
 
