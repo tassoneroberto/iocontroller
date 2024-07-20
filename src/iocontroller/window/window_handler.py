@@ -1,47 +1,71 @@
 #!/usr/bin/env python3
 
-import time
 import logging
+import time
+from ctypes import windll
 
-import win32gui
+import pygetwindow
 
 logging.getLogger(__name__)
 logging.root.setLevel(logging.INFO)
 
 
 def select_window(window_name: str) -> tuple[int, int, int, int]:
-    logging.info(f"Checking for application window with title [{window_name}]...")
-    hwnd = win32gui.FindWindow(None, r"{}".format(window_name))
-    if hwnd == 0:
-        raise Exception(f"Application [{window_name}] not detected.")
-
-    dimensions = win32gui.GetWindowRect(hwnd)
-    width = dimensions[2] - dimensions[0]
-    height = dimensions[3] - dimensions[1]
     logging.info(
-        f"Application [{window_name}] detected successfully. Window size: [{width}x{height}]"
+        f"Checking for application windows with title [{window_name}]..."
     )
 
-    win32gui.SetForegroundWindow(hwnd)
+    windows = pygetwindow.getWindowsWithTitle(window_name)
 
-    while window_name != win32gui.GetWindowText(win32gui.GetForegroundWindow()):        
-        logging.info(f"Setting it as active window...")
+    if len(windows) == 0:
+        raise Exception(f"Application [{window_name}] not found.")
+
+    for window in windows:
+        if window.title == window_name:
+            application_window = window
+            break
+
+    logging.info(f"Application [{window_name}] successfully detected!")
+    logging.info(
+        f"Window size: [{application_window.width}x{application_window.height}]"
+    )
+
+    application_window.activate()
+
+    while not application_window.isActive:
+        logging.info(f"Setting it as the foreground (active) window...")
         time.sleep(1)
 
     logging.info(f"The selected window is now active.")
 
-    return dimensions
+    adjust_dpi()
+
+    return (
+        application_window.left,
+        application_window.top,
+        application_window.width,
+        application_window.height,
+    )
 
 
-def get_relative_window_center(dimensions: tuple[int, int, int, int]) -> list[int]:
+def get_relative_window_center(
+    width: int, height: int, include_top_bar: bool = True
+) -> list[int]:
     return [
-        (dimensions[2] - dimensions[0]) // 2,
-        (dimensions[3] - dimensions[1]) // 2,
+        width // 2,
+        height // 2 + (20 if include_top_bar else 0),
     ]
 
 
-def get_absolute_window_center(dimensions: tuple[int, int, int, int]) -> list[int]:
+def get_absolute_window_center(
+    left: int, top: int, width: int, height: int, include_top_bar: bool = True
+) -> list[int]:
     return [
-        (dimensions[2] - dimensions[0]) // 2 + dimensions[0],
-        (dimensions[3] - dimensions[1]) // 2 + dimensions[1] + 20,
+        left + width // 2,
+        top + height // 2 + (20 if include_top_bar else 0),
     ]
+
+
+def adjust_dpi() -> None:
+    user32 = windll.user32
+    user32.SetProcessDPIAware()

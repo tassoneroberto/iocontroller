@@ -23,6 +23,7 @@ setup(
         "pywin32==305",
         "pyWinhook==1.6.2",
         "pyperclip==1.8.2",
+        "pygetwindow==0.0.9",
     ],
     url="https://github.com/tassoneroberto/iocontroller",
     author="Roberto Tassone",
