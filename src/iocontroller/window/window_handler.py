@@ -71,3 +71,12 @@ def adjust_window_dpi() -> None:
     # https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setprocessdpiaware
     user32 = windll.user32
     user32.SetProcessDPIAware()
+
+
+def send_message_to_window(hwnd: int, message: str) -> None:
+    for c in message:
+        if c == "\n":
+            win32api.SendMessage(hwnd, win32con.WM_KEYDOWN, win32con.VK_RETURN, 0)  # type: ignore
+            win32api.SendMessage(hwnd, win32con.WM_KEYUP, win32con.VK_RETURN, 0)  # type: ignore
+        else:
+            win32api.SendMessage(hwnd, win32con.WM_CHAR, ord(c), 0)  # type: ignore
