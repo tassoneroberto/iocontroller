@@ -5,6 +5,8 @@ import time
 from ctypes import windll
 
 import pygetwindow
+import win32api
+import win32con
 
 logging.getLogger(__name__)
 logging.root.setLevel(logging.INFO)
@@ -12,7 +14,7 @@ logging.root.setLevel(logging.INFO)
 
 def select_window(
     window_name: str, adjust_dpi: bool = True
-) -> tuple[int, int, int, int]:
+) -> pygetwindow.Win32Window:
     logging.info(
         f"Checking for application windows with title [{window_name}]..."
     )
@@ -44,12 +46,7 @@ def select_window(
         logging.info(f"Enabled system-DPI awareness.")
         adjust_window_dpi()
 
-    return (
-        application_window.left,
-        application_window.top,
-        application_window.width,
-        application_window.height,
-    )
+    return application_window
 
 
 def get_relative_window_center(

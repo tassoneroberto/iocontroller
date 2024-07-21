@@ -20,7 +20,7 @@ setup(
     long_description=open("README.md", encoding="utf8").read(),
     install_requires=[
         "swig==4.1.1",
-        "pywin32==305",
+        "pywin32==306",
         "pyWinhook==1.6.2",
         "pyperclip==1.8.2",
         "pygetwindow==0.0.9",
