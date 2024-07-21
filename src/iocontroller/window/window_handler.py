@@ -10,7 +10,9 @@ logging.getLogger(__name__)
 logging.root.setLevel(logging.INFO)
 
 
-def select_window(window_name: str) -> tuple[int, int, int, int]:
+def select_window(
+    window_name: str, adjust_dpi: bool = True
+) -> tuple[int, int, int, int]:
     logging.info(
         f"Checking for application windows with title [{window_name}]..."
     )
@@ -38,7 +40,9 @@ def select_window(window_name: str) -> tuple[int, int, int, int]:
 
     logging.info(f"The selected window is now active.")
 
-    adjust_dpi()
+    if adjust_dpi:
+        logging.info(f"Enabled system-DPI awareness.")
+        adjust_window_dpi()
 
     return (
         application_window.left,
@@ -66,6 +70,7 @@ def get_absolute_window_center(
     ]
 
 
-def adjust_dpi() -> None:
+def adjust_window_dpi() -> None:
+    # https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setprocessdpiaware
     user32 = windll.user32
     user32.SetProcessDPIAware()
