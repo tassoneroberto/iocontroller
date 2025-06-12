@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=80.9.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "iocontroller"
+dynamic = ["version", "readme"]
+description = "Python IO controller tools"
+keywords = ["keyboard", "mouse"]
+license = { text = "MIT" }
+authors = [
+    { name = "Roberto Tassone", email = "roberto.tassone@proton.me" }
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Natural Language :: English",
+    "Operating System :: Microsoft :: Windows",
+    "Topic :: Software Development :: Build Tools",
+    "Topic :: Software Development :: Libraries",
+    "Programming Language :: Python :: 3.10"
+]
+requires-python = ">=3.10"
+dependencies = [
+    "swig==4.3.1",
+    "pywin32==310",
+    "pyWinhook==1.6.2",
+    "pyperclip==1.9.0",
+    "pygetwindow==0.0.9"
+]
+
+[project.urls]
+Homepage = "https://github.com/tassoneroberto/iocontroller"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.dynamic]
+version = { attr = "iocontroller.version.__version__" }
+readme = { file = "README.md", content-type = "text/markdown" }
