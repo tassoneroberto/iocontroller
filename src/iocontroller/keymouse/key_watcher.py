@@ -18,9 +18,10 @@ class KeyWatcher(object):
         self.hm.HookKeyboard()
 
     def on_keyboard_event(self, event) -> bool:
+        logging.debug(f"Key pressed: {event.KeyID} ({event.Key})")
         try:
-            if event.KeyID == 27:  # `ESC` key
-                logging.info("ESC key pressed. Stopping...")
+            if event.KeyID == 46:  # `DEL` key
+                logging.info("DEL key pressed. Stopping...")
                 self.stop_func()
                 self.shutdown()
             elif self.p_func and event.KeyID == 80:  # `p` key
