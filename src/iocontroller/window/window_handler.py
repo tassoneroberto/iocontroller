@@ -16,7 +16,7 @@ def select_window(
     window_name: str, adjust_dpi: bool = True
 ) -> pygetwindow.Win32Window:
     logging.info(
-        f"Checking for application windows with title [{window_name}]..."
+        f"Searching for running application window with title [{window_name}]..."
     )
 
     windows = pygetwindow.getWindowsWithTitle(window_name)
@@ -69,8 +69,7 @@ def get_absolute_window_center(
 
 def adjust_window_dpi() -> None:
     # https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setprocessdpiaware
-    user32 = windll.user32
-    user32.SetProcessDPIAware()
+    windll.user32.SetProcessDPIAware()
 
 
 def send_message_to_window(hwnd: int, message: str) -> None:
