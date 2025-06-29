@@ -51,20 +51,20 @@ def select_window(
 
 def get_relative_window_center(
     width: int, height: int, include_top_bar: bool = True
-) -> list[int]:
-    return [
+) -> tuple[int, int]:
+    return (
         width // 2,
         height // 2 + (20 if include_top_bar else 0),
-    ]
+    )
 
 
 def get_absolute_window_center(
     left: int, top: int, width: int, height: int, include_top_bar: bool = True
-) -> list[int]:
-    return [
+) -> tuple[int, int]:
+    return (
         left + width // 2,
         top + height // 2 + (20 if include_top_bar else 0),
-    ]
+    )
 
 
 def adjust_window_dpi() -> None:
