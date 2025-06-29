@@ -122,3 +122,12 @@ def MiddleMouseClick() -> None:
 # directx codes at:
 # http://www.gamespp.com/directx/directInputKeyboardScanCodes.html
 # alternative source: https://gist.github.com/tracend/912308
+
+
+def send_message_to_window(hwnd: int, message: str) -> None:
+    for c in message:
+        if c == "\n":
+            win32api.SendMessage(hwnd, win32con.WM_KEYDOWN, win32con.VK_RETURN, 0)  # type: ignore
+            win32api.SendMessage(hwnd, win32con.WM_KEYUP, win32con.VK_RETURN, 0)  # type: ignore
+        else:
+            win32api.SendMessage(hwnd, win32con.WM_CHAR, ord(c), 0)  # type: ignore
