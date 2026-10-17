@@ -22,7 +22,7 @@ classifiers = [
 ]
 requires-python = ">=3.10"
 dependencies = [
-    "swig==4.3.1",
+    "swig==4.5.1",
     "pywin32==310",
     "pyWinhook==1.6.2",
     "pyperclip==1.9.0",
